@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mysql-standalone:
+    image: mysql
+    container_name: mysql-standalone
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: password
+  spring-batch-etl:
+    build: .
+    image: 610109-spring-batch
+    container_name: 610109-spring-batch
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-standalone
+    restart: always

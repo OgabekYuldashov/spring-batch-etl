@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /*background-color: #333333;*/
+        }
+
+        li {
+            float: right;
+        }
+
+        /*li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #111111;
+        }*/
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1>All Students</h1>
+        <p>
+        <ul>
+            <li>
+                <a href="/login" type="button" class="btn btn-primary">Login</a>
+            </li>
+            <li>
+                <button id="btnLoad" type="button" class="btn btn-success">Load Students</button>
+            </li>
+            <li>
+                <a href="/logout" type="button" class="btn btn-danger">Logout</a>
+            </li>
+        </ul>
+        </p>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <td scope="col">ID</td>
+                <td scope="col">First Name</td>
+                <td scope="col">Last Name</td>
+                <td scope="col">DOB</td>
+                <td scope="col">GPA</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student : ${students}">
+                <td scope="row" th:text="${student.id}"></td>
+                <td scope="row" th:text="${student.first}"></td>
+                <td scope="row" th:text="${student.last}"></td>
+                <td scope="row" th:text="${student.dob}"></td>
+                <td scope="row" th:text="${student.gpa}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>
+    $("#btnLoad").click(function () {
+        $.ajax({
+            url: '/secured/load',
+            type: 'GET',
+            data: null,
+            dataType: 'json',
+            success: function (data) {
+                window.location.replace("/");
+                // console.log('Data: '+data);
+            },
+            error: function (request, error) {
+                alert('You are not authorized, please log in with "ADMIN" role');
+                // alert("Request: " + JSON.stringify(request));
+            }
+        })
+    })
+</script>
+</html>
